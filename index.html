@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=0.46875" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>王二火大-联机对战平台</title>
     <meta
       name="keywords"
@@ -34,19 +34,81 @@
     <style>
       #ra2web-root {
         position: relative;
+        width: 100vw;
+        height: 100vh;
       }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      /* 小屏设备优化 */
       @media (max-height: 620px) {
         body {
           align-items: flex-start;
         }
       }
+      /* 横屏提示（手机竖屏时） */
+      @media (orientation: portrait) and (max-width: 768px) {
+        #rotate-hint {
+          display: flex !important;
+        }
+      }
+      #rotate-hint {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.95);
+        z-index: 99999;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: #ffcc00;
+        font-family: Arial, sans-serif;
+        font-size: 18px;
+        text-align: center;
+      }
+      #rotate-hint .icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+        animation: rotate-anim 2s ease-in-out infinite;
+      }
+      @keyframes rotate-anim {
+        0%, 100% { transform: rotate(0deg); }
+        50% { transform: rotate(90deg); }
+      }
     </style>
     <script>
       window.__ra2webTransportMode = 'websocket-only';
+      // Auto fullscreen on game start
+      (function() {
+        function tryFullscreen() {
+          var el = document.documentElement;
+          var rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+          if (rfs) {
+            rfs.call(el).catch(function(){});
+          }
+        }
+        // Try fullscreen after game loads
+        document.addEventListener('click', function() {
+          tryFullscreen();
+        }, { once: true });
+        // Also try on touch for mobile
+        document.addEventListener('touchstart', function() {
+          tryFullscreen();
+        }, { once: true });
+      })();
     </script>
     <script type="module" crossorigin src="./assets/releases/0.82.9-r72c2333/werhd.min.js"></script>
   </head>
   <body class="no-js">
+    <!-- 手机竖屏旋转提示 -->
+    <div id="rotate-hint">
+      <div class="icon">📱↔️</div>
+      <div>请旋转设备至横屏模式<br/>Landscape mode recommended</div>
+    </div>
     <div id="loader-wrapper" style="display: none">
       <div id="loader"></div>
       <div id="loader-logo"></div>
