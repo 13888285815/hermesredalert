@@ -1,0 +1,10 @@
+# 游戏资源包（太大不要提交）
+full-pack.7z
+*.7z
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
