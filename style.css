@@ -54,6 +54,7 @@ html:-moz-full-screen body {
     height: 100%;
     z-index: 1000;
     display: none !important;
+    background: url(res/img/test-video.webm) no-repeat center center;
 }
 
 #loader-logo {
